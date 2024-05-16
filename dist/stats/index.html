@@ -1,0 +1,96 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: #ffffff;
+            text-align: center;
+            padding: 1em 0;
+        }
+        main {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #4CAF50;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Website Statistics</h1>
+    </header>
+    <main>
+        <div>
+            <h2>Daily Statistics</h2>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Daily PV</td>
+                    <td id="pv"></td>
+                </tr>
+                <tr>
+                    <td>Daily UV</td>
+                    <td id="uv"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h2>Top 20 IP Addresses with Highest Visits</h2>
+            <table id="top_ips"></table>
+        </div>
+        <div>
+            <h2>Top 20 Page Paths with Highest Visits</h2>
+            <table id="top_uris"></table>
+        </div>
+    </main>
+    <script>
+        async function fetchStatistics() {
+            const response = await fetch('/statistics');
+            const data = await response.json();
+            document.getElementById('pv').textContent = data.pv;
+            document.getElementById('uv').textContent = data.uv;
+            
+            const topIpsTable = document.getElementById('top_ips');
+            topIpsTable.innerHTML = '<tr><th>IP Address</th><th>Visits</th></tr>';
+            data.top_ips.forEach(ip => {
+                topIpsTable.innerHTML += `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`;
+            });
+    
+            const topUrisTable = document.getElementById('top_uris');
+            topUrisTable.innerHTML = '<tr><th>Page Path</th><th>Visits</th></tr>';
+            data.top_uris.forEach(uri => {
+                topUrisTable.innerHTML += `<tr><td>${uri.uri}</td><td>${uri.count}</td></tr>`;
+            });
+        }
+        fetchStatistics();
+    </script>
+    
+</body>
+</html>

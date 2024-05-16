@@ -1,0 +1,255 @@
+n .inner-img {
+    margin: auto
+}
+
+.image-hover {
+    order: -10000
+}
+
+.image-hover {
+
+    position: relative;
+    display: inline-block;
+    margin-right: 7%
+}
+
+.bushuqudongyun {
+    display: block;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: absolute;
+    top: -660%;
+    /* 调整位置，使其显示在图片上方 */
+    left: -50%;
+    display: none;
+    /* 默认不显示 */
+    border-radius: 10px;
+    z-index: 10;
+    width: 250%;
+    height: 660%;
+}
+#tooltip-space {
+    position: absolute;
+    top: auto;
+    /* 调整位置，使其显示在图片上方 */
+    left: -50%;
+    display: none;
+    /* 默认不显示 */
+    border-radius: 10px;
+    z-index: 10;
+    width: 250%;
+    height: 660%;
+}
+.tooltip-image {
+    width: 100%;
+    /* 根据需要调整大小 */
+    display: block;
+}
+
+
+.tooltip-image {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.text-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-start;
+    pointer-events: none;
+    /* Ensures click events pass through */
+    font-size: small;
+    margin-left: 5px;
+}
+#text-container-space {
+    top: 20px;
+
+}
+.text {
+    z-index: 20;
+    color: white;
+    /* Ensure the text is visible */
+    margin: 1px;
+    /* Spacing */
+    padding: 1px;
+}
+
+.beside-banner-container {
+    display: inline-block;
+    position: relative;
+    justify-content: center;
+}
+
+.beside-banner-button-wrapper {
+    width: 50%;
+    height: 12%;
+    position: absolute;
+    top: 75%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 15px;
+}
+.beside-banner-button-wrapper img{
+    width:100%;
+    height:100%;
+}
+
+#chakandingjia {
+    height: 100%;
+    width: 50%;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 70%;
+    border: 0.5px solid gainsboro;
+    font-family: Microsoft YaHei;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    color: #5b5a5a;
+}
+
+#tiyanyixia {
+    padding: 5px 15px;
+    height: 100%;
+    width: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 70%;
+    border: 0.5px solid gainsboro;
+    font-family: Microsoft YaHei;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    background-color: rgba(30, 75, 148, 0.904);
+    color: #ffffff;
+}
+
+@media (max-width: 1294px) {
+    .beside-banner-container {
+        width: 100%;
+        /* Make the container span the full width */
+        height: auto;
+    }
+
+    .beside-banner-button-wrapper {
+        height: 15%;
+        width: 60%;
+    }
+
+    #chakandingjia {
+        height: 100%;
+        width: 50%;
+        font-size: 12%;
+
+        padding: 5px 5px;
+    }
+
+    #tiyanyixia {
+        padding: 5px 5px;
+        width: 50%;
+        font-size: 12%;
+        height: 100%;
+
+    }
+
+}
+
+.light-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(239, 236, 247, 0.5);
+    /* 半透明的红色 */
+    position: absolute;
+    pointer-events: none;
+    /* 防止鼠标事件受到影响 */
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 0 10px 5px rgba(230, 229, 229, 0.5);
+    /* 添加发光效果，与背景色同色 */
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    /* High z-index to cover everything below it */
+}
+
+.modal .container {
+    width: 60%;
+    height: auto;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    display: flex;
+    justify-self: center;
+    padding: 0;
+}
+
+.modal .container iframe {
+    width: 100%;
+    /* 宽度填满容器 */
+    height: 100%;
+    /* 高度填满容器 */
+    border: none;
+    /* 去除边框 */
+    padding: 0;
+    /* 去除内边距 */
+    margin: 0;
+    box-sizing: border-box;
+    /* 包括边框和内边距在内的宽高计算 */
+}
+
+.close {
+    opacity: 0.3;
+}
+
+.close:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.close:before,
+.close:after {
+    float: right;
+    position: absolute;
+    right: 30px;
+    top: 5px;
+    content: ' ';
+    height: 20px;
+    width: 1px;
+    background-color: #333;
+}
+
+.close:before {
+    transform: rotate(45deg);
+}
+
+.close:after {
+    transform: rotate(-45deg);
+}

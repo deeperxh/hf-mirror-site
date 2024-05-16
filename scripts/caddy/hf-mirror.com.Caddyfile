@@ -1,0 +1,179 @@
+*.hf-mirror.com {
+        import tls_hf_com
+        redir https://hf-mirror.com
+}
+(proxy_mod_header) {
+        header_up Host {upstream_hostport}
+        header_up X-Api-Key DNf9jdEdZxgzBe3xn2WRZpYtEa5GPsVu
+        header_up -Referer
+        header_down Location cdn-lfs.huggingface.co cdn-lfs.hf-mirror.com
+        header_down Location cdn-lfs-us-1.huggingface.co cdn-lfs-us-1.hf-mirror.com
+        header_down Location huggingface\.co hf-mirror.com
+        header_down Access-Control-Allow-Origin huggingface\.co hf-mirror.com
+}
+hf-mirror.com {
+        import tls_hf_com
+        log hf
+
+        @asset-paths {
+                expression path('/api/event', '/front/*', '/avatars/*') || path_regexp('\\.(js|css|png|jpe?g|gif|ico|woff|otf|ttf|eot|svg|txt|pdf|docx?|xlsx?)$')
+        }
+        skip_log @asset-paths
+        encode {
+                zstd
+                gzip
+                match {
+                        header Content-Type text/*
+                        header Content-Type application/json*
+                        header Content-Type application/javascript*
+                        header Content-Type application/xhtml+xml*
+                        header Content-Type application/atom+xml*
+                        header Content-Type application/rss+xml*
+                        header Content-Type image/svg+xml*
+                        header Content-Type image/vnd.microsoft.icon
+                }
+        }
+        header /* Server hf-mirror
+        @badbots {
+                expression header({'User-Agent': '*SemrushBot*', 'User-Agent': '*MJ12bot*'})
+        }
+
+        handle @badbots {
+                respond 403
+        }
+        @static {
+                path / /favicon.ico /logo.svg /invalid_referer.html /login_error.html path /stats /stats/* /scripts.js /styles.css /robots.txt /ads.txt /hfd/* /img/* /ad-scripts.js /ad-styles.css /pricing.html /pricing-styles.css /add_ads.js /inner_ads.css
+        }
+        handle @static {
+                root * /var/www/html/hf-mirror.com/
+                file_server
+        }
+        header @static Cache-Control "no-cache"
+        header /front/* Cache-Control "public, max-age=259200"
+        rewrite /front/assets/huggingface_logo-noborder.svg /logo.svg
+
+        handle /api/event {
+                respond "OK"
+                skip_log
+        }
+        handle /cdn-cgi/rum {
+                respond 204
+                skip_log
+        }
+        handle /statistics {
+                reverse_proxy localhost:5000
+        }
+        @model_path {
+                path_regexp .*/resolve/main/.*
+        }
+        header @model_path Cache-Control "public, max-age=259200"
+
+        @invalid_referer {
+                path_regexp .*/resolve/main/.*
+                not header !Referer
+                not header_regexp Referer ^https?://(\.*\.)?hf-mirror\.com(/|$)
+        }
+        rewrite @invalid_referer /invalid_referer.html
+
+        @illegal {
+                path_regexp /.*([xX][jJ][pP]|[Xx][Ii][Jj][Ii][Nn]|[Jj][Ii][Nn][Pp][Ii][Nn]).*
+        }
+        handle @illegal {
+                respond "invalid request" 403
+        }
+        @bad_user {
+                path_regexp (/*WitchHuntTV*|/*pitaogou*|/eee33/*|/*songzhuochao123*|/*CLTV*)
+        }
+        handle @bad_user {
+                respond "invalid request" 403
+        }
+        @auth {
+                path /login /join
+        }
+        rewrite @auth /login_error.html
+
+        handle /front/build/kube-*/index.js {
+                replace stream {
+                        "Hugging Face" "HF Mirror"
+                }
+                reverse_proxy https://huggingface.co {
+                        header_up Accept-Encoding identity
+                        header_up Host {upstream_hostport}
+                        header_up -Referer
+                }
+        }
+        handle /api/trending {
+                replace stream {
+                        huggingface.co hf-mirror.com
+                }
+                reverse_proxy https://huggingface.co {
+                        header_up Accept-Encoding identity
+                        import proxy_mod_header
+                }
+        }
+        handle /api/pricing {
+                uri replace /api/pricing /gemini/v1/gemini_api/gemini_api/portal/fontPage/specList
+                reverse_proxy https://www.virtaicloud.com
+        }
+        @project_page {
+                expression path_regexp('^/[^/]+/[^/]+/?$') || path_regexp('^/datasets/[^/]+/[^/]+/?$') || path_regexp('^/spaces/[^/]+/[^/]+/?$') || path_regexp('.*/tree/main/?$')
+        }
+        handle @project_page {
+                replace stream {
+                        https://huggingface.co https://hf-mirror.com
+                        "Hugging Face" "HF Mirror"
+                        # "</head>" "<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4098528738253489\" crossorigin=\"anonymous\"></script></head>"
+                }
+                replace stream {
+                        "</body>" "<link rel=\"stylesheet\" href=\"/inner_ads.css\"><script src=\"/add_ads.js\"></script></body>"
+                }
+                reverse_proxy https://huggingface.co {
+                        header_up Accept-Encoding identity
+                        import proxy_mod_header
+                }
+        }
+        handle /u/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/* {
+                uri path_regexp /u/[^/]+/datasets/(.+)/d/(.+) /datasets/$1/resolve/main/$2
+                uri path_regexp /u/[^/]+/models/(.+)/d/(.+) /$1/resolve/main/$2
+                reverse_proxy https://index-hf-mirror.padeoe.workers.dev {
+                        import proxy_mod_header
+                }
+        }
+        handle /ws/* {
+                uri path_regexp /ws/models--([^-]+)--(.+)--([^-]+)/(.+)$ /$1/$2/resolve/$3/$4
+                uri path_regexp /ws/models--(.+)--(.+)/(.+)$ /$1/resolve/$2/$3
+                uri path_regexp /ws/datasets--([^-]+)--(.+)--([^-]+)/(.+)$ /datasets/$1/$2/resolve/$3/$4
+                uri path_regexp /ws/datasets--(.+)--(.+)/(.+)$ /datasets/$1/resolve/$2/$3
+                reverse_proxy https://index-hf-mirror.padeoe.workers.dev {
+                        import proxy_mod_header
+                }
+        }
+
+        @type_path {
+                path /models /datasets /spaces
+        }
+
+        handle @type_path  {
+                replace stream {
+                        "</body>" "<link rel=\"stylesheet\" href=\"inner_ads.css\"><script src=\"add_ads.js\"></script></body>"
+                }
+                reverse_proxy https://huggingface.co {
+                        header_up Accept-Encoding identity
+                        import proxy_mod_header
+                }
+        }
+
+        handle /* {
+                # skip_log
+                reverse_proxy https://huggingface.co {
+                        import proxy_mod_header
+                }
+        }
+}
+
+cdn-avatars.hf-mirror.com {
+        reverse_proxy https://cdn-avatars.huggingface.co {
+                header_up Host {upstream_hostport}
+                header_up X-Api-Key DNf9jdEdZxgzBe3xn2WRZpYtEa5GPsVu
+        }
+}
