@@ -1,4 +1,7 @@
- // 跳转至趋动云
+console.log = function() {};
+
+
+// 跳转至趋动云
  function redirectToQudongyunLink(path) {
   // 将浏览器的当前位置更改为指定的URL
      var url="https://growthdata.virtaicloud.com/t/"+path
