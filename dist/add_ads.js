@@ -28,12 +28,12 @@ function top_banner(path) {
 
 
     if (path.includes('models')) {
-        img.src = 'https://hf-mirror.com/img/Models Banner.jpg';
+        img.src = '/img/Models Banner.jpg';
     } else if (path.includes('datasets')) {
-        img.src = 'https://hf-mirror.com/img/Datasets页面Banner.jpg';
+        img.src = '/img/Datasets页面Banner.jpg';
     } else if (path.includes('spaces')) {
         header = document.querySelector("body > div > main > div.container.py-6.lg\\:pb-7.lg\\:pt-10")
-        img.src = 'https://hf-mirror.com/img/Spaces_Banner.jpg';
+        img.src = '/img/Spaces_Banner.jpg';
         img.style.marginTop = '10px'
     }
 
@@ -45,7 +45,7 @@ function top_banner(path) {
 
 
 
-function depoly_button(parentDiv_path, img_src, tip_img_src, order, lines, match_id, match_img_src) {
+function depoly_button(parentDiv_path, img_src, tip_img_src, order, lines, match_id, match_img_src,homePath,loginPath) {
 
     console.log("depoly_button") // 获取具有特定class的父div
 
@@ -80,7 +80,7 @@ function depoly_button(parentDiv_path, img_src, tip_img_src, order, lines, match
     }
     qudongyun_popup_bushu(lines);
     img.onclick = function () {
-        redirectToQudongyunByRule();
+        redirectToQudongyunByRule(homePath,loginPath);
     };
 }
 
@@ -120,12 +120,12 @@ function depoly_button_space(parentDiv_path, img_src, tip_img_src, order, lines)
 
 }
 
-function beside_banner(section_path, first_child_path) {
+function beside_banner(section_path, first_child_path,homePath,loginPath,dataParam) {
     section = document.querySelector(section_path);
 
 
     var img = document.createElement('img');
-    img.src = "https://hf-mirror.com/img/Models详情页-广告位图.png";
+    img.src = "/img/Models详情页-广告位图.png";
 
     img.style.marginBottom = "10px"
 
@@ -138,13 +138,13 @@ function beside_banner(section_path, first_child_path) {
     button1.id = 'chakandingjia';
     button1.className = 'chakandingjia_class';
     button1.textContent = '查看定价';
-
+    button1.setAttribute('data-param', dataParam);
     // Creating the '体验一下' button
     var button2 = document.createElement('button');
     button2.id = 'tiyanyixia';
     button2.textContent = '体验一下';
     button2.onclick = function () {
-        redirectToQudongyunByRule();
+        redirectToQudongyunByRule(homePath,loginPath);
     };
 
     // Appending buttons to the container
@@ -176,7 +176,8 @@ function modal() {
 
     // Create the iframe inside the container
     var iframe = document.createElement('iframe');
-    iframe.src = '/pricing.html';
+    iframe.src = '';
+    iframe.id='pricingIframe';
 
     // Create the close div inside the container
     var close = document.createElement('div');
@@ -208,8 +209,8 @@ function chooseFunctionBasedOnPath() {
         var first_child_path = "body > div > main > div.container.relative.flex.flex-col.md\\:grid.md\\:space-y-0.w-full.md\\:grid-cols-12.md\\:flex-1.md\\:grid-rows-full.space-y-4.md\\:gap-6 > section.pt-8.border-gray-100.md\\:col-span-5.pt-6.md\\:pb-24.md\\:pl-6.md\\:border-l.order-first.md\\:order-none > div.flex.justify-between.pb-2"
 
         var parentDiv_path = "body > div > main > div.SVELTE_HYDRATER.contents > header > div > div.flex.flex-col-reverse.lg\\:flex-row.lg\\:items-center.lg\\:justify-between > div.relative.mb-1\\.5.flex.flex-wrap.gap-1\\.5.sm\\:flex-nowrap.lg\\:mb-0";
-        var img_src = 'https://hf-mirror.com/img/Models详情页-前往趋动云部署下载图标.png';
-        var tip_img_src = 'https://hf-mirror.com/img/Model详情页-使用方法弹窗-blank.png';
+        var img_src = '/img/Models详情页-前往趋动云部署下载图标.png';
+        var tip_img_src = '/img/Model详情页-使用方法弹窗-blank.png';
         var lines = [
             { text: '使用方法:', color: 'white' },
             { text: '1.模型下载', color: 'rgb(51, 102, 244)' },
@@ -220,8 +221,8 @@ function chooseFunctionBasedOnPath() {
             { text: 'b.登录趋动云，挂载模型至项目即刻体验云端部署和优化', color: 'white' },
         ];
         match_id = check_match_id(path, 'model');
-        depoly_button(parentDiv_path, img_src, tip_img_src, -10000, lines, match_id, match_img_src);
-        beside_banner(section_path, first_child_path);
+        depoly_button(parentDiv_path, img_src, tip_img_src, -10000, lines, match_id, match_img_src,'NF','SF');
+        beside_banner(section_path, first_child_path,'VF','4F','8F');
         modal();
 
     } else if (path.match(/^\/datasets\/[^\/]+\/[^\/]+$/)) { // Matches 'a/b' format
@@ -229,23 +230,23 @@ function chooseFunctionBasedOnPath() {
         var section_path = "body > div > main > div.container.relative.flex.flex-col.md\\:grid.md\\:space-y-0.w-full.md\\:grid-cols-12.md\\:flex-1.md\\:grid-rows-full.space-y-4.md\\:gap-6 > section.pt-6.border-gray-100.md\\:pb-24.md\\:pl-6.md\\:w-64.lg\\:w-80.xl\\:w-96.flex-none.order-first.md\\:order-none.md\\:border-l.\\!pt-3.md\\:\\!pt-6"
         var first_child_path = "body > div > main > div.container.relative.flex.flex-col.md\\:grid.md\\:space-y-0.w-full.md\\:grid-cols-12.md\\:flex-1.md\\:grid-rows-full.space-y-4.md\\:gap-6 > section.pt-6.border-gray-100.md\\:pb-24.md\\:pl-6.md\\:w-64.lg\\:w-80.xl\\:w-96.flex-none.order-first.md\\:order-none.md\\:border-l.\\!pt-3.md\\:\\!pt-6 > dl"
         var parentDiv = "body > div.flex.min-h-screen.flex-col > main > div.SVELTE_HYDRATER.contents > header > div > div.flex.flex-col-reverse.lg\\:flex-row.lg\\:items-center.lg\\:justify-between";
-        var img_src = 'https://hf-mirror.com/img/Models详情页-前往趋动云部署下载图标.png'; var tip_img_src = 'https://hf-mirror.com/img/Model详情页-使用方法弹窗-blank.png';
+        var img_src = '/img/Models详情页-前往趋动云部署下载图标.png'; var tip_img_src = '/img/Model详情页-使用方法弹窗-blank.png';
         var lines = [{ text: '使用方法:', color: 'white' }, { text: '1.数据集下载', color: 'rgb(51, 102, 244)' }, { text: 'a.登录趋动云，创建项目', color: 'white' }, { text: 'b.创建开发环境进行数据集下载', color: 'white' }, { text: '2.运行', color: 'rgb(51, 102, 244)' }, { text: 'a.下载数据集', color: 'white' }, { text: 'b.登录趋动云，挂载数据集至项目即刻体验云端部署和优化', color: 'white' },
         ];
-        var match_img_src = 'https://hf-mirror.com/img/Dataset详情页-一键训练至趋动云.png';
+        var match_img_src = '/img/Dataset详情页-一键训练至趋动云.png';
         match_id = check_match_id(path, 'datasets');
-        depoly_button(parentDiv, img_src, tip_img_src, 0, lines, match_id, match_img_src);
-        beside_banner(section_path, first_child_path);
+        depoly_button(parentDiv, img_src, tip_img_src, 0, lines, match_id, match_img_src,'uF','gF');
+        beside_banner(section_path, first_child_path,'mF','PF','fF');
         modal();
     } else if (path.match(/^\/spaces\/[^\/]+\/[^\/]+$/)) { // Matches 'a/b' format
         console.log("spaces")
         var parentDiv = "body > div > div:nth-child(1) > header > div > div.flex.items-center.justify-between.xl\\:min-w-0";
-        var img_src = 'https://hf-mirror.com/img/前往趋动云部署.png';
-        var tip_img_src = 'https://hf-mirror.com/img/Space详情页-使用方法弹窗-blank.png';
+        var img_src = '/img/前往趋动云部署.png';
+        var tip_img_src = '/img/Space详情页-使用方法弹窗-blank.png';
         var lines = [{ text: '使用方法:', color: 'white' }, { text: '1.部署', color: 'rgb(51, 102, 244)' }, { text: 'a.下载space', color: 'white' }, { text: 'b.登录趋动云，挂载space至项目即刻体验云端部署和优化', color: 'white' }
         ];
         match_id = check_match_id(path, 'spaces');
-        depoly_button_space(parentDiv, img_src, tip_img_src, 0, lines, match_id, match_img_src);
+        depoly_button_space(parentDiv, img_src, tip_img_src, 0, lines, match_id, match_img_src,'JF','eF');
 
     } else {
         defaultFunction();
@@ -262,6 +263,9 @@ document.addEventListener("DOMContentLoaded", function () {
     Array.from(chakandingjia).forEach(element => {
         element.addEventListener('click', function () {
             const modal = document.getElementsByClassName('modal')[0];
+            const iframe = document.getElementById('pricingIframe');
+            const param = element.getAttribute('data-param');
+            iframe.src = `/pricing.html?index=${param}`;
             modal.style.display = "block";
         });
     });

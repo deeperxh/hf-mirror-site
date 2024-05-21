@@ -20,7 +20,7 @@
         <!-- 遮罩层 -->
         <div class="modal">
             <div class="container">
-                <iframe src="pricing.html" ></iframe>
+                <iframe id="pricingIframe" src=""></iframe>
                 <div class="close">
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="top-ad">
                 <img src="img/top-ad-text.png" id="zhucemianfeiling">
 
-                <div id="suanlipingtai" style="color: white;" onclick="redirectToQudongyunByRule()">
+                <div id="suanlipingtai" style="color: white;" onclick="redirectToQudongyunByRule('EF','zF')">
                     <div style="height: 100%;">算力平台</div>
                     <img src="./img/arrow.png" style="height: 50%; margin-top: 5px;">
                 </div>
@@ -172,8 +172,8 @@
                 <img src="./img/contain-ad-2.png" id="contain-ad-img" alt="Banner Ad">
  
                 <div class="contain-ad-button-wrapper">
-                    <button id="chakandingjia" class="chakandingjia_class">查看定价</button>
-                    <button id="tiyanyixia" onclick="redirectToQudongyunByRule()">体验一下</button>
+                    <button id="chakandingjia" class="chakandingjia_class" data-param="wF">查看定价</button>
+                    <button id="tiyanyixia" onclick="redirectToQudongyunByRule('7F','vF')">体验一下</button>
                 </div>
 
             </div>
@@ -224,8 +224,8 @@
                 <div class="footer-ad-img">
                     <img src="./img/foot-ad.png" alt="趋动云算力" usemap="#image-map">
                     <map name="image-map">
-                        <area target="" alt="" title=""  coords="108,207,213,174" shape="rect" id="chakandingjia_dibu" class="chakandingjia_class"style=" cursor: pointer;">
-                        <area target="" alt="" title="" coords="236,174,342,208" shape="rect"  onclick="redirectToQudongyunByRule()" style=" cursor: pointer;">
+                        <area target="" alt="" title=""  coords="108,207,213,174" shape="rect" id="chakandingjia_dibu" class="chakandingjia_class" data-param="RF" style=" cursor: pointer;">
+                        <area target="" alt="" title="" coords="236,174,342,208" shape="rect"  onclick="redirectToQudongyunByRule('dF','hF')" style=" cursor: pointer;">
                     </map>
                 </div>
             </div>

@@ -19,7 +19,7 @@
             background-image: linear-gradient(to right, #ffffff, #eceff5ad, #ffffff);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
         }
 
         .modal {
@@ -189,12 +189,14 @@
 </head>
 
 <body>
-    <div class="modal">
-        <div class="container">
-            <iframe src="pricing.html"></iframe>
-            <div class="close"></div>
+    <!-- 遮罩层 -->
+        <div class="modal">
+            <div class="container">
+                <iframe id="pricingIframe" src=""></iframe>
+                <div class="close">
+                </div>
+            </div>
         </div>
-    </div>
     <div class="container">
         <div class="content">
             <p>如需登录下载 Gated Model，请先点击下方按钮前往 huggingface 官方申请入口。<br> <br> 申请通过后在 <a href="https://huggingface.co/settings/tokens">官方页面这里</a> 获取 <i>access token</i> ，再使用命令行下载。<br> <br> <br> access token 使用方法见本站首页说明。</p>
@@ -204,8 +206,8 @@
         <div class="ad-banner">
             <img src="./img/error-banner.png" usemap="#image-map-banner">
             <map name="image-map-banner">
-                <area class="chakandingjia_class" target="" alt="" title="" coords="79,260,223,333" shape="rect">
-                <area target="" alt="" title="" onclick="redirectToQudongyunByRule()" coords="234,262,371,332" shape="rect">
+                <area class="chakandingjia_class" data-param='kF' target="" alt="" title="" coords="79,260,223,333" shape="rect">
+                <area target="" alt="" title="" onclick="redirectToQudongyunByRule('HF','cF')" coords="234,262,371,332" shape="rect">
             </map>
         </div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4098528738253489" crossorigin="anonymous"></script>
@@ -217,8 +219,8 @@
     <footer class="foot-ad">
         <img src="./img/error-foot-ad-2.jpg" usemap="#image-map-foot">
         <div class="error-footer-ad-button-wrapper">
-            <button id="chakandingjia_error_foot" class="chakandingjia_class">查看定价</button>
-            <button id="tiyanyixia_error_foot" onclick="redirectToQudongyunByRule()">体验一下</button>
+            <button id="chakandingjia_error_foot" class="chakandingjia_class" data-param='rF'>查看定价</button>
+            <button id="tiyanyixia_error_foot" onclick="redirectToQudongyunByRule('tF','QF')">体验一下</button>
         </div>
     </footer>
 

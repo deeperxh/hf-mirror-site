@@ -13,6 +13,9 @@ const chakandingjia = document.getElementsByClassName('chakandingjia_class');
 Array.from(chakandingjia).forEach(element => {
     element.addEventListener('click', function() {
         const modal = document.getElementsByClassName('modal')[0];
+        const iframe = document.getElementById('pricingIframe');
+        const param = element.getAttribute('data-param');
+        iframe.src = `pricing.html?index=${param}`;
         modal.style.display = "block";
     });   
 });

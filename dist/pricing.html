@@ -14,7 +14,7 @@
             云端算力助力AI创新进程</h2>
         <div class="pricing-banner-desc-1">
             GPU池化云平台
-            <img src="img/qudongyun-logo.png" width="50px" height="12px"> 为huggingface mirror用户提供高性能算力。基于GPU性能，算力分为：
+            <img src="img/qudongyun-logo.png" width="50px" height="12px"> 为HF-Mirror用户提供高性能算力。基于GPU性能，算力分为：
         </div>
         <div class="pricing-banner-desc-2">
             基础版B-Basic、标准版S-Standard、高级版P-Premium
@@ -30,109 +30,124 @@
             <div class="foot-ad-price">300元</div>
             算力金!
         </div>
-        <button class="lijizhuce" onclick="redirectToQudongyunLogin()">立即注册</button>
+        <button class="lijizhuce" onclick="lijizhuceRedirect()">立即注册</button>
     </div>
 
 <script src="common.js"></script>
 
 </body>
 <script>
-fetch('https://hf-mirror.com/api/pricing').then(response => response.json()).then(data => {
-    const testData = data["data"]["specList"];
-    console.log(testData);
-    const container = document.getElementById('data-container');
+     function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const queries = queryString.split("&");
+            queries.forEach(query => {
+                const [key, value] = query.split("=");
+                params[key] = decodeURIComponent(value);
+            });
+            return params;
+        }
+    fetch('/api/pricing').then(response => response.json()).then(data => {
+        const testData = data["data"]["specList"];
+        const container = document.getElementById('data-container');
+        
+        testData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'grid-item';
+            const title = document.createElement('div');
+            title.className = 'grid-item-title';
+            title.textContent = item['specName'];
     
-    testData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'grid-item';
-        const title = document.createElement('div');
-        title.className = 'grid-item-title';
-        title.textContent = item['specName'];
-
-        const content1 = document.createElement('div');
-        content1.className = 'grid-item-content-1';
-
-        // 动态添加数据项，包括图片
-        const keys = ['GPU卡数', 'GPU每卡显存', 'CPU核数', '内存'];
-        const values = [
-            item['vgpu'], 
-            bytesToGB(item['vgpuMemory']),
-            item['cpu'], 
-            bytesToGB(item['memory'])
-        ];
-        const imageUrls = [
-            'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_GPU%E5%8D%A1%E6%95%B0.svg', 
-            'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_GPU%E6%AF%8F%E5%8D%A1%E6%98%BE%E5%AD%98.svg', 
-            'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_CPU%E6%A0%B8%E6%95%B0.svg', 
-            'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_%E5%86%85%E5%AD%98.svg'
-        ];
-
-        keys.forEach((key, index) => {
-            content1.appendChild(createItemWrapper(key, values[index], imageUrls[index]));
+            const content1 = document.createElement('div');
+            content1.className = 'grid-item-content-1';
+    
+            // 动态添加数据项，包括图片
+            const keys = ['GPU卡数', 'GPU每卡显存', 'CPU核数', '内存'];
+            const values = [
+                item['vgpu'], 
+                bytesToGB(item['vgpuMemory']),
+                item['cpu'], 
+                bytesToGB(item['memory'])
+            ];
+            const imageUrls = [
+                'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_GPU%E5%8D%A1%E6%95%B0.svg', 
+                'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_GPU%E6%AF%8F%E5%8D%A1%E6%98%BE%E5%AD%98.svg', 
+                'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_CPU%E6%A0%B8%E6%95%B0.svg', 
+                'https://gemini-static.bd.bcebos.com/portal/prod/img/resource/icon_%E5%86%85%E5%AD%98.svg'
+            ];
+    
+            keys.forEach((key, index) => {
+                content1.appendChild(createItemWrapper(key, values[index], imageUrls[index]));
+            });
+    
+            const content2 = document.createElement('div');
+            content2.className = 'grid-item-content-2';
+            content2.textContent = item['specPortalDescription'];
+            //价格区
+            const content3 = document.createElement('div');
+            content3.className = 'grid-item-content-3';
+            price_final=document.createElement('span');
+            price_final.className='grid-item-content-3-price_final'
+            price_final.textContent = divideByHundred(item['priceFinal']);
+            price_unit=document.createElement('span');
+            price_unit.textContent = '元/小时';
+            price_unit.className='grid-item-content-3-price_unit'
+            price_origin=document.createElement('span');
+            price_origin.textContent = divideByHundred(item['priceOriginal'])+'元/小时';
+            price_origin.className='grid-item-content-3-price_origin'
+    
+            content3.appendChild(price_final);
+            content3.appendChild(price_unit);
+            content3.appendChild(price_origin);
+    
+            div.appendChild(title);
+            div.appendChild(content1);
+            div.appendChild(content2);
+            div.appendChild(content3);
+    
+            container.appendChild(div);
         });
-
-        const content2 = document.createElement('div');
-        content2.className = 'grid-item-content-2';
-        content2.textContent = item['specPortalDescription'];
-        //价格区
-        const content3 = document.createElement('div');
-        content3.className = 'grid-item-content-3';
-        price_final=document.createElement('span');
-        price_final.className='grid-item-content-3-price_final'
-        price_final.textContent = divideByHundred(item['priceFinal']);
-        price_unit=document.createElement('span');
-        price_unit.textContent = '元/小时';
-        price_unit.className='grid-item-content-3-price_unit'
-        price_origin=document.createElement('span');
-        price_origin.textContent = divideByHundred(item['priceOriginal'])+'元/小时';
-        price_origin.className='grid-item-content-3-price_origin'
-
-        content3.appendChild(price_final);
-        content3.appendChild(price_unit);
-        content3.appendChild(price_origin);
-
-        div.appendChild(title);
-        div.appendChild(content1);
-        div.appendChild(content2);
-        div.appendChild(content3);
-
-        container.appendChild(div);
     });
-});
 
 
-
-function createItemWrapper(key, value, imageUrl) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'grid-item-content1-item_wrapper';
-
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.className = 'grid-item-icon';
-    img.alt = key;  // 提供替代文本，描述图片内容
-    img.loading='lazy'
-    img.decoding='async'
-    const spanKey = document.createElement('span');
-    spanKey.className = 'grid-item-content1-item-key';
-    spanKey.textContent = key;
-
-    const spanValue = document.createElement('span');
-    spanValue.className = 'grid-item-content1-item-value';
-    spanValue.textContent = value;
-
-    wrapper.appendChild(img);
-    wrapper.appendChild(spanKey);
-    wrapper.appendChild(spanValue);
-
-    return wrapper;
-}
-
-function bytesToGB(bytes) {
-    return Math.round(bytes / 1024 / 1024 / 1024)+'GB'; // 转换字节到GB并四舍五入
-}
-function divideByHundred(number) {
-    return number / 100;
-}
+    
+    function createItemWrapper(key, value, imageUrl) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'grid-item-content1-item_wrapper';
+    
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.className = 'grid-item-icon';
+        img.alt = key;  // 提供替代文本，描述图片内容
+        img.loading='lazy'
+        img.decoding='async'
+        const spanKey = document.createElement('span');
+        spanKey.className = 'grid-item-content1-item-key';
+        spanKey.textContent = key;
+    
+        const spanValue = document.createElement('span');
+        spanValue.className = 'grid-item-content1-item-value';
+        spanValue.textContent = value;
+    
+        wrapper.appendChild(img);
+        wrapper.appendChild(spanKey);
+        wrapper.appendChild(spanValue);
+    
+        return wrapper;
+    }
+    
+    function bytesToGB(bytes) {
+        return Math.round(bytes / 1024 / 1024 / 1024)+'GB'; // 转换字节到GB并四舍五入
+    }
+    function divideByHundred(number) {
+        return number / 100;
+    }
+    
+    function lijizhuceRedirect(){
+          const params = getQueryParams();
+        console.log('index:', params.index);
+        redirectToQudongyunLink(params.index);
+    }
 
 </script>
 
