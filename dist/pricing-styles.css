@@ -220,3 +220,12 @@ body {
     color: #ffffff;
     margin-bottom: 10%;
 }
+@media (max-width:430px ) {
+    .grid-container {
+        grid-template-columns: none;
+    }
+    .lijizhuce {
+        font-size: 60%;
+    }
+
+}

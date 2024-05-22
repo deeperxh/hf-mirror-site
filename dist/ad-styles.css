@@ -195,43 +195,6 @@
 
 
 
-@media (max-width: 768px) {
-    .banner-container {
-        width: 100%;
-        /* Make the container span the full width */
-       height: 120%;
-    }
-    
-    .contain-ad-button-wrapper {
-        height: 15%;
-        width: 25%;
-    }
-
-    #chakandingjia {
-        height: 100%;
-        width: 50%;
-        font-size: 1.5vw;
-
-        padding: 5px 5px;
-    }
-
-    #tiyanyixia {
-        padding: 5px 5px;
-        width: 50%;
-        font-size: 1.5vw;
-
-        height: 100%;
-
-    }
-    .button-overlay{
-            height: 10%;
-            width: 13%;
-            left: 25%;
-    }
-    .top-ad{
-        visibility: hidden;
-    }
-}
 
 .light-dot {
     width: 30px;
@@ -307,4 +270,62 @@
 }
 .close:after {
   transform: rotate(-45deg);
+}
+@media (max-width: 1080px) {
+    .banner-container {
+        width: 100%;
+        /* Make the container span the full width */
+       height: 120%;
+    }
+    
+    .contain-ad-button-wrapper {
+        height: 15%;
+        width: 25%;
+    }
+
+    #chakandingjia {
+        height: 100%;
+        width: 50%;
+        font-size: 1.5vw;
+
+        padding: 5px 5px;
+    }
+
+    #tiyanyixia {
+        padding: 5px 5px;
+        width: 50%;
+        font-size: 1.5vw;
+
+        height: 100%;
+
+    }
+     .button-overlay {
+        height: 18%;
+        width: 20%;
+        left: 25%;
+        font-size: x-small;
+        top: 75%;
+     }
+    .top-ad{
+        visibility: hidden;
+    }
+    .modal .container {
+        width:80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .text-overlay-2{
+        font-size: 2vw;
+        left:32%;
+        width:35% 
+    }
+
+    .text-overlay-1 {
+       top: 25%;
+      font-size: 4vw;
+    }
+     .footer-ad-img{
+       left: -150%;
+    }
 }
